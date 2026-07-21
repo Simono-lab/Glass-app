@@ -3,116 +3,101 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass Premium App</title>
+  <title>Glass App v2</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script defer src="script.js"></script>
 </head>
 <body>
   <div class="scene">
-    <div class="orb orb-a"></div>
-    <div class="orb orb-b"></div>
+    <div class="bg-orb orb1"></div>
+    <div class="bg-orb orb2"></div>
+    <div class="bg-orb orb3"></div>
 
-    <div class="phone" id="phone">
-      <div class="screen-glow"></div>
-      <div class="content">
-        <div class="topbar">
-          <button class="icon active" data-action="home">⌂</button>
-          <button class="icon" data-action="search">⌕</button>
-          <button class="icon" data-action="notifications">◔</button>
-          <button class="icon" data-action="profile">◌</button>
+    <aside class="drawer" id="drawer">
+      <div class="drawer-head">
+        <div>
+          <div class="drawer-title">Menu</div>
+          <div class="drawer-sub">Navigation iOS-like</div>
         </div>
+        <button class="round-btn" data-close-drawer>✕</button>
+      </div>
 
-        <div class="row">
-          <div class="glass card" data-panel="stats">
-            <div class="big">$13.50</div>
-            <div class="small green">▲ Points</div>
-            <div class="spacer"></div>
-            <div class="big small-big">$0.00</div>
-            <div class="small">● Total cap tasks</div>
-          </div>
+      <button class="drawer-item active" data-route="home">⌂ Home</button>
+      <button class="drawer-item" data-route="media">◔ Media</button>
+      <button class="drawer-item" data-route="settings">⚙ Settings</button>
+      <button class="drawer-item" data-open="profile">◌ Profile</button>
+      <button class="drawer-item" data-open="action">＋ Quick Action</button>
 
-          <div class="glass card media" data-panel="media">
-            <div class="title">
-              <span>Media</span>
-              <span>•••</span>
-            </div>
-            <div class="time">2:32</div>
-            <div class="progress"></div>
-            <div class="controls">
-              <span>◄</span>
-              <span class="play">▶</span>
-              <span>►</span>
-            </div>
-          </div>
-        </div>
+      <div class="drawer-footer">↩ Back</div>
+    </aside>
 
-        <div class="glass chips" data-panel="chips">
-          <div class="header">
-            <span>Playguiders</span>
-            <span>›</span>
-          </div>
-          <div class="tabs">
-            <button class="tab active">Today</button>
-            <button class="tab">5D</button>
-            <button class="tab">1M</button>
-            <button class="tab">3M</button>
-            <button class="tab">Apr</button>
-          </div>
-        </div>
+    <main class="phone" id="phone">
+      <div class="phone-shell"></div>
+      <div class="light-line"></div>
 
-        <div class="glass menu" data-panel="menu">
-          <button class="menu-item active"><span>⌂</span><span>Home</span></button>
-          <button class="menu-item"><span>⌕</span><span>Search</span></button>
-          <button class="menu-item"><span>◔</span><span>Notifications</span></button>
-          <button class="menu-item"><span>♫</span><span>Music</span></button>
-          <button class="menu-item"><span>⚙</span><span>Settings</span></button>
-          <button class="menu-item"><span>↩</span><span>About</span></button>
-          <div class="menu-footer">⌄</div>
-        </div>
+      <header class="topbar">
+        <button class="top-icon active" data-route="home">⌂</button>
+        <button class="top-icon" data-route="search">⌕</button>
+        <button class="top-icon" data-open="notifications">◔</button>
+        <button class="top-icon" data-open="profile">◌</button>
+      </header>
 
-        <div class="glass mini" data-panel="player">
-          <div class="mini-head">
-            <div class="play-circle">▶</div>
-            <div>
-              <div class="mini-title">Media Player</div>
-              <div class="mini-sub">Audio/video</div>
-            </div>
-            <div class="dots">•••</div>
-          </div>
-          <div class="slider"></div>
-        </div>
+      <section class="screen" id="screen"></section>
 
-        <div class="glass video" data-panel="video">
-          <div class="play-circle small">▶</div>
-          <div>
-            <div class="mini-title">Video</div>
-            <div class="mini-sub">19.2M stars</div>
-          </div>
-        </div>
+      <nav class="bottomnav">
+        <button class="nav-item" data-route="search">⌕</button>
+        <button class="nav-item active" data-route="home">⌂</button>
+        <button class="nav-item" data-open="notifications">◔</button>
+      </nav>
 
-        <div class="navwrap">
-          <button class="navbtn">⌕</button>
-          <button class="navbtn active">⌂</button>
-          <button class="navbtn">◔</button>
-        </div>
+      <button class="fab" data-open="action">＋</button>
+    </main>
+
+    <div class="toast" id="toast">Action envoyée</div>
+  </div>
+
+  <dialog class="modal" id="modalProfile">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Profile</div>
+        <div class="modal-sub">Popup iOS</div>
+      </div>
+      <button class="round-btn" data-close-modal="modalProfile">✕</button>
+    </div>
+
+    <div class="profile-card">
+      <div class="avatar">SN</div>
+      <div>
+        <div class="profile-name">Skalli Noureddine</div>
+        <div class="profile-meta">Marseille · Creative UI</div>
       </div>
     </div>
 
-    <aside class="sidebar" id="sidebar">
-      <div class="sidebar-title">Menu</div>
-      <button class="side-item active">⌂ Home</button>
-      <button class="side-item">⌕ Search</button>
-      <button class="side-item">◔ Notifications</button>
-      <button class="side-item">♫ Music</button>
-      <button class="side-item">⚙ Settings</button>
-      <button class="side-item">↩ About</button>
-      <div class="side-footer">⌄</div>
-    </aside>
-  </div>
+    <div class="modal-actions">
+      <button class="glass-btn" data-route="settings">Open Settings</button>
+      <button class="glass-btn" data-open="action">Quick Action</button>
+    </div>
+  </dialog>
 
-  <script src="script.js"></script>
+  <dialog class="modal" id="modalAction">
+    <div class="modal-head">
+      <div>
+        <div class="modal-title">Quick Action</div>
+        <div class="modal-sub">Create a floating sheet</div>
+      </div>
+      <button class="round-btn" data-close-modal="modalAction">✕</button>
+    </div>
+
+    <div class="action-grid">
+      <button class="action-tile">◌ Post</button>
+      <button class="action-tile">♫ Music</button>
+      <button class="action-tile">✉ Message</button>
+      <button class="action-tile">★ Favorite</button>
+    </div>
+  </dialog>
 </body>
 </html>
