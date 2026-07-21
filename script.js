@@ -7,16 +7,16 @@ const modalAction = document.getElementById('modalAction');
 
 let currentRoute = 'home';
 
-const stateMap = {
-  home: renderHome,
-  media: renderMedia,
-  settings: renderSettings,
-  search: renderSearch
-};
+function routeClass(route){
+  return route === currentRoute ? 'active' : '';
+}
 
-function setActiveButtons(route){
+function setActiveAll(route){
   document.querySelectorAll('[data-route]').forEach(btn => {
     btn.classList.toggle('active', btn.dataset.route === route);
+  });
+  drawer.querySelectorAll('.drawer-item').forEach(i => {
+    i.classList.toggle('active', i.dataset.route === route);
   });
 }
 
@@ -25,18 +25,18 @@ function openDrawer(open=true){
   gsap.to(drawer, {
     x: open ? 0 : -260,
     opacity: open ? 1 : 0,
-    duration: 0.2,
+    duration: 0.18,
     ease: 'power2.out'
   });
 }
 
 function showToast(msg){
   toast.textContent = msg;
-  gsap.fromTo(toast,{opacity:0,y:14,scale:.98},{opacity:1,y:0,scale:1,duration:.18,ease:'power2.out'});
+  gsap.fromTo(toast,{opacity:0,y:14,scale:.98},{opacity:1,y:0,scale:1,duration:.16,ease:'power2.out'});
   clearTimeout(showToast.t);
   showToast.t = setTimeout(()=>{
-    gsap.to(toast,{opacity:0,y:14,duration:.25,ease:'power2.in'});
-  },1200);
+    gsap.to(toast,{opacity:0,y:14,duration:.22,ease:'power2.in'});
+  },1100);
 }
 
 function pushRoute(route){
@@ -46,9 +46,11 @@ function pushRoute(route){
 
 function renderRoute(route){
   currentRoute = route;
-  setActiveButtons(route);
-  drawer.querySelectorAll('.drawer-item').forEach(i => i.classList.toggle('active', i.dataset.route === route));
-  if (stateMap[route]) stateMap[route]();
+  setActiveAll(route);
+  if(route === 'home') renderHome();
+  if(route === 'media') renderMedia();
+  if(route === 'settings') renderSettings();
+  if(route === 'search') renderSearch();
 }
 
 function renderHome(){
@@ -83,17 +85,17 @@ function renderHome(){
 
       <div class="glass menu">
         <button class="menu-item active" data-route="home">⌂ Home</button>
+        <button class="menu-item" data-route="media">◔ Media</button>
         <button class="menu-item" data-route="search">⌕ Search</button>
-        <button class="menu-item" data-open="notifications">◔ Notifications</button>
-        <button class="menu-item" data-open="profile">♫ Music</button>
+        <button class="menu-item" data-open="profile">◌ Profile</button>
         <button class="menu-item" data-route="settings">⚙ Settings</button>
-        <button class="menu-item" data-open="profile">↩ About</button>
+        <button class="menu-item" data-open="action">＋ Quick Action</button>
         <div class="menu-footer" data-open="action">⌄</div>
       </div>
 
       <div class="glass mini">
         <div class="mini-head">
-          <div class="play-circle">▶</div>
+          <div class="play-circle"><span class="jewel jewel-xs" aria-hidden="true"></span></div>
           <div>
             <div style="font-size:12px;font-weight:600;">Media Player</div>
             <div class="small">Audio/video</div>
@@ -104,14 +106,14 @@ function renderHome(){
       </div>
 
       <div class="glass video">
-        <div class="play-circle small">▶</div>
+        <div class="play-circle small"><span class="jewel jewel-xs" aria-hidden="true"></span></div>
         <div>
           <div style="font-size:12px;font-weight:600;">Video</div>
           <div class="small">19.2M stars</div>
         </div>
       </div>
     </div>`;
-  attachPanelEvents();
+  attachEvents();
 }
 
 function renderMedia(){
@@ -126,7 +128,7 @@ function renderMedia(){
         <div style="font-size:34px;font-weight:800;">2:32</div>
         <div class="progress"></div>
         <div class="controls" style="font-size:18px">
-          <span>◄◄</span><span class="play" style="font-size:20px;width:56px;height:56px;border-radius:20px">▶</span><span>►►</span>
+          <span>◄◄</span><span class="play" style="font-size:20px;width:56px;height:56px;border-radius:20px;display:grid;place-items:center;"><span class="jewel jewel-xs" aria-hidden="true"></span></span><span>►►</span>
         </div>
       </div>
       <div class="glass menu">
@@ -138,7 +140,7 @@ function renderMedia(){
         <div class="menu-footer" data-route="home">↩ Return Home</div>
       </div>
     </div>`;
-  attachPanelEvents();
+  attachEvents();
 }
 
 function renderSettings(){
@@ -164,7 +166,7 @@ function renderSettings(){
         <div class="menu-footer" data-open="action">⌄</div>
       </div>
     </div>`;
-  attachPanelEvents();
+  attachEvents();
 }
 
 function renderSearch(){
@@ -180,7 +182,7 @@ function renderSearch(){
       </div>
       <div class="glass mini">
         <div class="mini-head">
-          <div class="play-circle">▶</div>
+          <div class="play-circle"><span class="jewel jewel-xs" aria-hidden="true"></span></div>
           <div>
             <div style="font-size:12px;font-weight:600;">Trending</div>
             <div class="small">Neon glass UI</div>
@@ -195,20 +197,20 @@ function renderSearch(){
         <div class="menu-footer" data-route="home">↩ Return Home</div>
       </div>
     </div>`;
-  attachPanelEvents();
+  attachEvents();
 }
 
-function attachPanelEvents(){
+function attachEvents(){
   document.querySelectorAll('[data-route]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('click',()=>{
       openDrawer(false);
       pushRoute(btn.dataset.route);
-      if (btn.dataset.route === 'home') history.replaceState({route:'home'}, '', '#home');
+      if(btn.dataset.route === 'home') history.replaceState({route:'home'}, '', '#home');
     });
   });
 
   document.querySelectorAll('[data-open]').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
+    btn.addEventListener('click',()=>{
       const what = btn.dataset.open;
       if(what === 'profile') modalProfile.showModal();
       if(what === 'action') modalAction.showModal();
@@ -223,10 +225,6 @@ document.addEventListener('click', (e)=>{
   if(e.target.matches('[data-close-modal="modalProfile"]')) modalProfile.close();
   if(e.target.matches('[data-close-modal="modalAction"]')) modalAction.close();
   if(e.target.matches('.fab')) modalAction.showModal();
-  if(e.target.matches('.top-icon[data-route="home"], .nav-item[data-route="home"]')) pushRoute('home');
-  if(e.target.matches('.top-icon[data-route="search"], .nav-item[data-route="search"]')) pushRoute('search');
-  if(e.target.matches('.top-icon[data-open="profile"]')) modalProfile.showModal();
-  if(e.target.matches('.top-icon[data-open="notifications"], .nav-item[data-open="notifications"]')) showToast('No notifications');
 });
 
 document.addEventListener('keydown', (e)=>{
@@ -246,12 +244,19 @@ window.addEventListener('load', ()=>{
   const initial = location.hash.replace('#','') || 'home';
   history.replaceState({route: initial}, '', `#${initial}`);
   renderRoute(initial);
+
   gsap.from('.phone',{opacity:0,y:60,rotate:-13,duration:.45,ease:'power3.out'});
   gsap.from('.bg-orb',{opacity:0,scale:.85,stagger:.08,duration:.5,ease:'power2.out'});
   gsap.to('.light-line',{opacity:1,duration:1.1,repeat:-1,yoyo:true,ease:'sine.inOut'});
+
   window.addEventListener('mousemove',(e)=>{
     const x=(e.clientX/window.innerWidth-.5)*10;
     const y=(e.clientY/window.innerHeight-.5)*8;
     gsap.to(phone,{rotationY:x,rotationX:-y,duration:.35,ease:'power2.out'});
   });
+
+  document.querySelector('.top-icon[data-route="home"]').addEventListener('click', ()=> pushRoute('home'));
+  document.querySelector('.top-icon[data-route="search"]').addEventListener('click', ()=> pushRoute('search'));
+  document.querySelector('.top-icon[data-open="profile"]').addEventListener('click', ()=> modalProfile.showModal());
+  document.querySelector('.top-icon[data-open="notifications"]').addEventListener('click', ()=> showToast('No notifications'));
 });
