@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Glass App v2</title>
+  <title>Jewel Glass App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -25,14 +25,12 @@
         </div>
         <button class="round-btn" data-close-drawer>✕</button>
       </div>
-
       <button class="drawer-item active" data-route="home">⌂ Home</button>
       <button class="drawer-item" data-route="media">◔ Media</button>
       <button class="drawer-item" data-route="settings">⚙ Settings</button>
       <button class="drawer-item" data-open="profile">◌ Profile</button>
       <button class="drawer-item" data-open="action">＋ Quick Action</button>
-
-      <div class="drawer-footer">↩ Back</div>
+      <div class="drawer-footer" data-route="home">↩ Back</div>
     </aside>
 
     <main class="phone" id="phone">
@@ -40,7 +38,9 @@
       <div class="light-line"></div>
 
       <header class="topbar">
-        <button class="top-icon active" data-route="home">⌂</button>
+        <button class="top-icon jewel-btn active" data-route="home">
+          <span class="jewel jewel-sm" aria-hidden="true"></span>
+        </button>
         <button class="top-icon" data-route="search">⌕</button>
         <button class="top-icon" data-open="notifications">◔</button>
         <button class="top-icon" data-open="profile">◌</button>
@@ -49,9 +49,15 @@
       <section class="screen" id="screen"></section>
 
       <nav class="bottomnav">
-        <button class="nav-item" data-route="search">⌕</button>
-        <button class="nav-item active" data-route="home">⌂</button>
-        <button class="nav-item" data-open="notifications">◔</button>
+        <button class="nav-item" data-route="search">
+          <span class="jewel jewel-xs" aria-hidden="true"></span>
+        </button>
+        <button class="nav-item active" data-route="home">
+          <span class="jewel jewel-xs" aria-hidden="true"></span>
+        </button>
+        <button class="nav-item" data-open="notifications">
+          <span class="jewel jewel-xs" aria-hidden="true"></span>
+        </button>
       </nav>
 
       <button class="fab" data-open="action">＋</button>
@@ -70,7 +76,9 @@
     </div>
 
     <div class="profile-card">
-      <div class="avatar">SN</div>
+      <div class="avatar">
+        <span class="jewel jewel-avatar" aria-hidden="true"></span>
+      </div>
       <div>
         <div class="profile-name">Skalli Noureddine</div>
         <div class="profile-meta">Marseille · Creative UI</div>
@@ -87,7 +95,7 @@
     <div class="modal-head">
       <div>
         <div class="modal-title">Quick Action</div>
-        <div class="modal-sub">Create a floating sheet</div>
+        <div class="modal-sub">Floating sheet</div>
       </div>
       <button class="round-btn" data-close-modal="modalAction">✕</button>
     </div>
